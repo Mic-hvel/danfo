@@ -18,7 +18,7 @@ import HostVans, {loader as HostVansLoader} from './pages/Host/HostVans';
 import HostVanDetail, {loader as HostVanDetailLoader} from './pages/Host/HostVanDetail';
 import NotFound from './pages/NotFound';
 import { requireAuth } from './utils';
-import Login, {loader as loginLoader} from './pages/Login';
+import Login, {action as loginAction, loader as loginLoader} from './pages/Login';
 
 
 
@@ -32,7 +32,11 @@ const router = createBrowserRouter(
 
       <Route element={<Layout />}  errorElement={<ErrorPage />}>
         <Route path='/' element={<Home />}/>
-        <Route path='*' element={<NotFound />}/>
+        <Route path='about' element={<About />}/>
+        <Route path='login' element={<Login />} loader={loginLoader} action={loginAction} />
+        <Route path='vans' element={<Vans />} loader={vansLoader} />
+        <Route path='vans/:id' element={<VanDetail loader={VanDetailLoader} />}/>
+
         <Route path='host' element={<HostLayout />} >
           <Route index element={<Dashboard />} loader={async () => await requireAuth()}/>
           <Route path='income' element={<Income />} loader={async () => await requireAuth()}/>
@@ -40,10 +44,9 @@ const router = createBrowserRouter(
           <Route path='vans/:id' element={<HostVanDetail />}  loader={HostVanDetailLoader}/>
           <Route path='reviews' element={<Reviews />} loader={async () => await requireAuth()}/>
         </Route>
-        <Route path='about' element={<About />}/>
-        <Route path='login' element={<Login />} loader={loginLoader} />
-        <Route path='vans' element={<Vans />} loader={vansLoader} />
-        <Route path='vans/:id' element={<VanDetail loader={VanDetailLoader} />}/>
+
+        <Route path='*' element={<NotFound />}/>
+        
       </Route>
       
     </Route>

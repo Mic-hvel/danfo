@@ -33,3 +33,26 @@ export async function getHostVans(id) {
         console.log(error)
     }  
 }
+
+
+export async function loginUser(creds) {
+    try {
+        const res = await fetch("/api/login",
+            { method: "post", body: JSON.stringify(creds) }
+        )
+        const data = await res.json()
+
+        if (!res.ok) {
+            throw new Error ({
+                message: data.message,
+                statusText: res.statusText,
+                status: res.status
+            })
+        }
+
+        return data
+    } catch(error) {
+        console.log(error)
+    }
+    
+}
